@@ -20,4 +20,14 @@ public class LinksController {
   List<String> linksV2(@RequestParam String url) throws BadRequest{
     return LinkLister.getLinksV2(url);
   }
+  public class LinkLister {
+  public static List<String> getLinks(String url) throws IOException {
+    List<String> result = new ArrayList<String>();
+    Document doc = Jsoup.connect(url).get();
+    Elements links = doc.select("a");
+    for (Element link : links) {
+      result.add(link.absUrl("href"));
+    }
+    return result;
+  }
 }
